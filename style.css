@@ -1,0 +1,755 @@
+:root {
+    /* Color Palette */
+    --primary-color: #4a90a4;
+    --secondary-color: #87ceeb;
+    --accent-color: #f0f8ff;
+    --text-primary: #2c3e50;
+    --text-secondary: #7f8c8d;
+    --background: #fafbfc;
+    --surface: #ffffff;
+    --border: #e1e8ed;
+    --success: #27ae60;
+    --warning: #f39c12;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header Styles */
+.header {
+    background: var(--gradient-primary);
+    color: white;
+    padding: 20px 0;
+    box-shadow: var(--shadow-light);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-title {
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.app-title i {
+    color: #a8e6cf;
+}
+
+.date-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Navigation Styles */
+.navigation {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 0;
+}
+
+.nav-tab {
+    flex: 1;
+    padding: 16px 20px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-bottom: 3px solid transparent;
+}
+
+.nav-tab:hover {
+    background: var(--accent-color);
+    color: var(--primary-color);
+}
+
+.nav-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    background: var(--accent-color);
+}
+
+.nav-tab i {
+    font-size: 1.1rem;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 40px 0;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Wellness Grid */
+.wellness-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.wellness-card {
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    box-shadow: var(--shadow-light);
+    transition: var(--transition);
+    border: 1px solid var(--border);
+}
+
+.wellness-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-medium);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-header h3 {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-header i {
+    color: var(--primary-color);
+}
+
+.refresh-btn {
+    padding: 8px;
+    border: none;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.refresh-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: rotate(180deg);
+}
+
+.card-content blockquote {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-primary);
+    border-left: 4px solid var(--primary-color);
+    padding-left: 20px;
+    margin: 0;
+    line-height: 1.7;
+}
+
+.prompts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.prompt-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.prompt-number {
+    background: var(--gradient-accent);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.prompt-item p {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.inspiration-card .card-content p {
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    line-height: 1.7;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Morning Routine Styles */
+.routine-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.routine-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.routine-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.progress-bar {
+    width: 300px;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--gradient-accent);
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.routine-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.routine-step {
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.routine-step:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.routine-step.completed {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border-color: var(--success);
+}
+
+.step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.step-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+.step-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-accent);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.step-details h4 {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+}
+
+.step-details p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.step-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.step-duration {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.step-checkbox {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: transparent;
+}
+
+.step-checkbox:hover {
+    border-color: var(--primary-color);
+    background: var(--accent-color);
+}
+
+.step-checkbox.checked {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+/* Timer Styles */
+.timer-section {
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    padding: 32px;
+    box-shadow: var(--shadow-light);
+    text-align: center;
+}
+
+.timer-container {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.timer-display {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 24px;
+    font-family: 'Courier New', monospace;
+}
+
+.timer-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.timer-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.timer-btn.primary {
+    background: var(--gradient-primary);
+    color: white;
+}
+
+.timer-btn:not(.primary) {
+    background: var(--border);
+    color: var(--text-primary);
+}
+
+.timer-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
+}
+
+.timer-presets {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.preset-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-primary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.preset-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Journal Styles */
+.journal-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.journal-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.journal-header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.journal-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.journal-section {
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    padding: 32px;
+    box-shadow: var(--shadow-light);
+}
+
+.journal-prompt {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.journal-prompt h4 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+    color: var(--primary-color);
+}
+
+.current-prompts p {
+    background: var(--accent-color);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    border-left: 4px solid var(--primary-color);
+}
+
+.journal-writing textarea {
+    width: 100%;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+    font-family: inherit;
+    resize: vertical;
+    transition: var(--transition);
+    background: var(--surface);
+}
+
+.journal-writing textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.1);
+}
+
+.journal-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.journal-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.journal-btn.primary {
+    background: var(--gradient-secondary);
+    color: white;
+}
+
+.journal-btn:not(.primary) {
+    background: var(--border);
+    color: var(--text-primary);
+}
+
+.journal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
+}
+
+.save-status {
+    font-size: 0.9rem;
+    margin-top: 12px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.save-status.success {
+    color: var(--success);
+}
+
+/* Footer */
+.footer {
+    background: var(--gradient-primary);
+    color: white;
+    text-align: center;
+    padding: 24px 0;
+    margin-top: auto;
+}
+
+.footer p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+    
+    .app-title {
+        font-size: 1.8rem;
+    }
+    
+    .nav-tab {
+        font-size: 0.85rem;
+        padding: 14px 12px;
+    }
+    
+    .nav-tab span {
+        display: none;
+    }
+    
+    .wellness-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .routine-header h2,
+    .journal-header h2 {
+        font-size: 2rem;
+    }
+    
+    .timer-display {
+        font-size: 3rem;
+    }
+    
+    .timer-controls {
+        flex-wrap: wrap;
+    }
+    
+    .step-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .step-actions {
+        margin-top: 12px;
+    }
+    
+    .journal-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .container {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 20px 0;
+    }
+    
+    .wellness-card,
+    .journal-section,
+    .timer-section {
+        padding: 20px;
+    }
+    
+    .routine-step {
+        padding: 16px;
+    }
+    
+    .progress-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .progress-bar {
+        width: 100%;
+    }
+}
+
+/* Loading Animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.refresh-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
+/* Success Animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.step-checkbox.checked {
+    animation: pulse 0.3s ease-in-out;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus Styles for Accessibility */
+button:focus,
+textarea:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .navigation,
+    .refresh-btn,
+    .timer-section,
+    .journal-actions,
+    .footer {
+        display: none;
+    }
+    
+    .wellness-card,
+    .routine-step,
+    .journal-section {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}
