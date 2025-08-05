@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Wellness - My Personal Wellness Companion</title>
+    <meta name="description" content="Start my day with intention through motivational quotes, journal prompts, and guided morning routines.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="app-title">
+                        <i class="fas fa-leaf"></i>
+                        Daily Wellness
+                    </h1>
+                    <div class="date-display">
+                        <i class="fas fa-calendar-day"></i>
+                        <span id="current-date"></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <div class="container">
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="wellness">
+                        <i class="fas fa-heart"></i>
+                        Daily Wellness
+                    </button>
+                    <button class="nav-tab" data-tab="routine">
+                        <i class="fas fa-clock"></i>
+                        Morning Routine
+                    </button>
+                    <button class="nav-tab" data-tab="journal">
+                        <i class="fas fa-book"></i>
+                        Journal
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Daily Wellness Tab -->
+                <section id="wellness-tab" class="tab-content active">
+                    <div class="wellness-grid">
+                        <!-- Motivational Quote -->
+                        <div class="wellness-card quote-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-quote-left"></i> Daily Quote</h3>
+                                <button class="refresh-btn" data-type="quote">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <blockquote id="daily-quote">
+                                    "The greatest wealth is health." - Virgil
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <!-- Journal Prompts -->
+                        <div class="wellness-card prompts-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-pen"></i> Journal Prompts</h3>
+                                <button class="refresh-btn" data-type="prompts">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="prompts-list">
+                                    <div class="prompt-item">
+                                        <span class="prompt-number">1</span>
+                                        <p id="prompt-1">How do I want to feel when I go to bed tonight?</p>
+                                    </div>
+                                    <div class="prompt-item">
+                                        <span class="prompt-number">2</span>
+                                        <p id="prompt-2">What are three things I am grateful for
