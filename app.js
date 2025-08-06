@@ -514,3 +514,143 @@ window.WellnessApp = {
     saveJournalEntry,
     clearJournalEntry
 };
+// Add to your existing event listeners setup
+function setupEventListeners() {
+    // ... existing code ...
+
+    // Copy buttons
+    const copyButtons = document.querySelectorAll('.copy-btn');
+    copyButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const type = btn.dataset.type;
+            copyContent(type, btn);
+        });
+    });
+
+    // Share buttons  
+    const shareButtons = document.querySelectorAll('.share-btn');
+    shareButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const type = btn.dataset.type;
+            shareContent(type);
+        });
+    });
+}
+
+// Copy functionality
+function copyContent(type, button) {
+    let textToCopy = '';
+    
+    switch(type) {
+        case 'quote':
+            const quote = document.getElementById('daily-quote').textContent;
+            textToCopy = quote;
+            break;
+            
+        case 'prompts':
+            const prompt1 = document.getElementById('prompt-1').textContent;
+            const prompt2 = document.getElementById('prompt-2').textContent;
+            textToCopy = `Daily Prompts:\n\n1. ${prompt1}\n\n2. ${prompt2}`;
+            break;
+            
+        case 'inspiration':
+            const inspiration = document.getElementById('daily-inspiration').textContent;
+            textToCopy = `Daily Inspiration:\n\n${inspiration}`;
+            break;
+    }
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        // Visual feedback
+        button.classList.add('copied');
+        showCopyNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} copied!`);
+        
+        setTimeout(() => {
+            button.classList.remove('copied');
+        }, 1000);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        fallbackCopy(textToCopy);
+    });
+}
+
+// Share functionality using Web Share API
+function shareContent(type) {
+    let shareData = {};
+    
+    switch(type) {
+        case 'quote':
+            const quote = document.getElementById('daily-quote').textContent;
+            shareData = {
+                title: 'Daily Wellness Quote',
+                text: quote,
+            };
+            break;
+            
+        case 'prompts':
+            const prompt1 = document.getElementById('prompt-1').textContent;
+            const prompt2 = document.getElementById('prompt-2').textContent;
+            shareData = {
+                title: 'Daily Journal Prompts',
+                text: `1. ${prompt1}\n\n2. ${prompt2}`,
+            };
+            break;
+            
+        case 'inspiration':
+            const inspiration = document.getElementById('daily-inspiration').textContent;
+            shareData = {
+                title: 'Daily Inspiration',
+                text: inspiration,
+            };
+            break;
+    }
+    
+    // Use native share if available (mobile), otherwise copy to clipboard
+    if (navigator.share) {
+        navigator.share(shareData).catch(err => {
+            console.log('Share cancelled or failed:', err);
+        });
+    } else {
+        // Fallback to copy
+        copyContent(type, document.querySelector(`.share-btn[data-type="${type}"]`));
+    }
+}
+
+// Fallback copy method for older browsers
+function fallbackCopy(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showCopyNotification('Copied to clipboard!');
+    } catch (err) {
+        console.error('Fallback copy failed:', err);
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// Copy notification
+function showCopyNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'copy-notification';
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-in forwards';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 2000);
+}
+
