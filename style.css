@@ -1,20 +1,21 @@
 :root {
-    /* Color Palette */
-    --primary-color: #4a90a4;
-    --secondary-color: #87ceeb;
-    --accent-color: #f0f8ff;
-    --text-primary: #2c3e50;
-    --text-secondary: #7f8c8d;
-    --background: #fafbfc;
+    /* Updated Color Palette - Purple, Pink, Mauve */
+    --primary-color: #8e44ad;
+    --secondary-color: #c39bd3;
+    --accent-color: #f8f3ff;
+    --text-primary: #2d1b3d;
+    --text-secondary: #7b6b8a;
+    --background: #faf8fc;
     --surface: #ffffff;
-    --border: #e1e8ed;
+    --border: #e8dff0;
     --success: #27ae60;
-    --warning: #f39c12;
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-    --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --shadow-medium: 0 4px 20px rgba(0, 0, 0, 0.15);
+    --warning: #e67e22;
+    --gradient-primary: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+    --gradient-secondary: linear-gradient(135deg, #e91e63 0%, #ad1457 100%);
+    --gradient-accent: linear-gradient(135deg, #bb86fc 0%, #e1bee7 100%);
+    --gradient-inspiration: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --shadow-light: 0 2px 10px rgba(142, 68, 173, 0.1);
+    --shadow-medium: 0 4px 20px rgba(142, 68, 173, 0.15);
     --border-radius: 12px;
     --transition: all 0.3s ease;
 }
@@ -68,7 +69,7 @@ body {
 }
 
 .app-title i {
-    color: #a8e6cf;
+    color: #d1c4e9;
 }
 
 .date-display {
@@ -188,7 +189,14 @@ body {
     color: var(--primary-color);
 }
 
-.refresh-btn {
+/* Card Actions (Copy, Share, Refresh buttons) */
+.card-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.copy-btn, .share-btn, .refresh-btn {
     padding: 8px;
     border: none;
     background: var(--accent-color);
@@ -203,10 +211,28 @@ body {
     justify-content: center;
 }
 
+.copy-btn:hover {
+    background: var(--success);
+    color: white;
+    transform: scale(1.1);
+}
+
+.share-btn:hover {
+    background: var(--gradient-secondary);
+    color: white;
+    transform: scale(1.1);
+}
+
 .refresh-btn:hover {
     background: var(--primary-color);
     color: white;
     transform: rotate(180deg);
+}
+
+.copy-btn.copied {
+    background: var(--success);
+    color: white;
+    animation: pulse 0.3s ease-in-out;
 }
 
 .card-content blockquote {
@@ -233,7 +259,7 @@ body {
 
 .prompt-number {
     background: var(--gradient-accent);
-    color: white;
+    color: var(--primary-color);
     width: 28px;
     height: 28px;
     border-radius: 50%;
@@ -330,7 +356,7 @@ body {
 }
 
 .routine-step.completed {
-    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
     border-color: var(--success);
 }
 
@@ -355,7 +381,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--primary-color);
     font-size: 1.2rem;
 }
 
@@ -376,10 +402,24 @@ body {
     gap: 12px;
 }
 
-.step-duration {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+.timer-btn-small {
+    padding: 8px 16px;
+    border: none;
+    background: var(--gradient-secondary);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.85rem;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.timer-btn-small:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
 }
 
 .step-checkbox {
@@ -407,18 +447,14 @@ body {
     color: white;
 }
 
-/* Timer Styles */
-.timer-section {
+/* Main Timer Styles */
+.main-timer {
     background: var(--surface);
     border-radius: var(--border-radius);
     padding: 32px;
     box-shadow: var(--shadow-light);
     text-align: center;
-}
-
-.timer-container {
-    max-width: 400px;
-    margin: 0 auto;
+    border: 1px solid var(--border);
 }
 
 .timer-display {
@@ -427,13 +463,17 @@ body {
     color: var(--primary-color);
     margin-bottom: 24px;
     font-family: 'Courier New', monospace;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .timer-controls {
     display: flex;
     justify-content: center;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .timer-btn {
@@ -448,12 +488,17 @@ body {
     gap: 8px;
 }
 
-.timer-btn.primary {
+#timer-start {
     background: var(--gradient-primary);
     color: white;
 }
 
-.timer-btn:not(.primary) {
+#timer-pause {
+    background: var(--warning);
+    color: white;
+}
+
+#timer-reset {
     background: var(--border);
     color: var(--text-primary);
 }
@@ -461,30 +506,6 @@ body {
 .timer-btn:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-light);
-}
-
-.timer-presets {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.preset-btn {
-    padding: 8px 16px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text-primary);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 0.9rem;
-}
-
-.preset-btn:hover {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
 }
 
 /* Journal Styles */
@@ -501,7 +522,7 @@ body {
 .journal-header h2 {
     font-size: 2.5rem;
     margin-bottom: 12px;
-    background: var(--gradient-secondary);
+    background: var(--gradient-inspiration);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -517,21 +538,22 @@ body {
     border-radius: var(--border-radius);
     padding: 32px;
     box-shadow: var(--shadow-light);
+    border: 1px solid var(--border);
 }
 
-.journal-prompt {
+.journal-prompts {
     margin-bottom: 32px;
     padding-bottom: 24px;
     border-bottom: 1px solid var(--border);
 }
 
-.journal-prompt h4 {
+.journal-prompts h4 {
     font-size: 1.3rem;
     margin-bottom: 16px;
     color: var(--primary-color);
 }
 
-.current-prompts p {
+.journal-prompt-display p {
     background: var(--accent-color);
     padding: 16px;
     border-radius: 8px;
@@ -541,7 +563,7 @@ body {
     border-left: 4px solid var(--primary-color);
 }
 
-.journal-writing textarea {
+.journal-writing-area textarea {
     width: 100%;
     border: 2px solid var(--border);
     border-radius: 8px;
@@ -552,12 +574,13 @@ body {
     resize: vertical;
     transition: var(--transition);
     background: var(--surface);
+    color: var(--text-primary);
 }
 
-.journal-writing textarea:focus {
+.journal-writing-area textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(74, 144, 164, 0.1);
+    box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.1);
 }
 
 .journal-actions {
@@ -567,7 +590,7 @@ body {
     margin-top: 20px;
 }
 
-.journal-btn {
+.action-btn {
     padding: 12px 24px;
     border: none;
     border-radius: 8px;
@@ -579,17 +602,17 @@ body {
     gap: 8px;
 }
 
-.journal-btn.primary {
-    background: var(--gradient-secondary);
+.action-btn.primary {
+    background: var(--gradient-inspiration);
     color: white;
 }
 
-.journal-btn:not(.primary) {
+.action-btn:not(.primary) {
     background: var(--border);
     color: var(--text-primary);
 }
 
-.journal-btn:hover {
+.action-btn:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-light);
 }
@@ -619,6 +642,80 @@ body {
     opacity: 0.9;
 }
 
+/* Notification Styles */
+.copy-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--success);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes timerFinished {
+    from {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Loading Animation */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.refresh-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .header-content {
@@ -643,6 +740,16 @@ body {
     .wellness-grid {
         grid-template-columns: 1fr;
         gap: 20px;
+    }
+    
+    .card-actions {
+        gap: 6px;
+    }
+    
+    .copy-btn, .share-btn, .refresh-btn {
+        width: 32px;
+        height: 32px;
+        padding: 6px;
     }
     
     .routine-header h2,
@@ -685,7 +792,7 @@ body {
     
     .wellness-card,
     .journal-section,
-    .timer-section {
+    .main-timer {
         padding: 20px;
     }
     
@@ -701,27 +808,13 @@ body {
     .progress-bar {
         width: 100%;
     }
-}
-
-/* Loading Animation */
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.refresh-btn.loading i {
-    animation: spin 1s linear infinite;
-}
-
-/* Success Animation */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.step-checkbox.checked {
-    animation: pulse 0.3s ease-in-out;
+    
+    .copy-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        text-align: center;
+    }
 }
 
 /* Smooth Scrolling */
@@ -739,8 +832,10 @@ textarea:focus {
 /* Print Styles */
 @media print {
     .navigation,
+    .copy-btn,
+    .share-btn,
     .refresh-btn,
-    .timer-section,
+    .main-timer,
     .journal-actions,
     .footer {
         display: none;
@@ -753,54 +848,3 @@ textarea:focus {
         border: 1px solid #ccc;
     }
 }
-.card-actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.copy-btn, .share-btn {
-    padding: 8px;
-    border: none;
-    background: var(--accent-color);
-    color: var(--primary-color);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: var(--transition);
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.copy-btn:hover {
-    background: var(--success);
-    color: white;
-}
-
-.share-btn:hover {
-    background: var(--warning);
-    color: white;
-}
-
-.copy-btn.copied {
-    background: var(--success);
-    color: white;
-    animation: pulse 0.3s ease-in-out;
-}
-
-/* Success notification for copy */
-.copy-notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--success);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: var(--shadow-medium);
-    z-index: 1000;
-    animation: slideIn 0.3s ease-out;
-}
-
