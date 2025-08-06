@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Wellness - Your Personal Wellness Companion</title>
+    <meta name="description" content="Start your day with intention through motivational quotes, journal prompts, and guided morning routines.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="app-title">
+                        <i class="fas fa-leaf"></i>
+                        Daily Wellness
+                    </h1>
+                    <div class="date-display">
+                        <i class="fas fa-calendar-day"></i>
+                        <span id="current-date"></span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="navigation">
+            <div class="container">
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-tab="wellness">
+                        <i class="fas fa-heart"></i>
+                        <span>Daily Wellness</span>
+                    </button>
+                    <button class="nav-tab" data-tab="routine">
+                        <i class="fas fa-clock"></i>
+                        <span>Morning Routine</span>
+                    </button>
+                    <button class="nav-tab" data-tab="journal">
+                        <i class="fas fa-book"></i>
+                        <span>Journal</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Daily Wellness Tab -->
+                <section id="wellness-tab" class="tab-content active">
+                    <div class="wellness-grid">
+                        <!-- Motivational Quote -->
+                        <div class="wellness-card quote-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-quote-left"></i> Daily Quote</h3>
+                                <button class="refresh-btn" data-type="quote">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <blockquote id="daily-quote">
+                                    "The greatest wealth is health." - Virgil
+                                </blockquote>
+                            </div>
+                        </div>
+
+                        <!-- Journal Prompts -->
+                        <div class="wellness-card prompts-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-pen"></i> Journal Prompts</h3>
+                                <button class="refresh-btn" data-type="prompts">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="prompts-list">
+                                    <div class="prompt-item">
+                                        <span class="prompt-number">1</span>
+                                        <p id="prompt-1">How do I want to feel when I go to bed tonight?</p>
+                                    </div>
+                                    <div class="prompt-item">
+                                        <span class="prompt-number">2</span>
+                                        <p id="prompt-2">What are three things I am grateful for today?</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Spark of Inspiration -->
+                        <div class="wellness-card inspiration-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-star"></i> Spark of Inspiration</h3>
+                                <button class="refresh-btn" data-type="inspiration">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <p id="daily-inspiration">
+                                    Today is a new day, so rise up and move forward. Each morning brings new potential, but it's up to you to bring it to life.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Morning Routine Tab -->
+                <section id="routine-tab" class="tab-content">
+                    <div class="routine-container">
+                        <div class="routine-header">
+                            <h2>Morning Routine Timer</h2>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progress-fill"></div>
+                                </div>
+                                <span class="progress-text" id="progress-text">0/6 completed</span>
+                            </div>
+                        </div>
+
+                        <div class="routine-steps">
+                            <div class="routine-step" data-step="wake-up">
+                                <div class="step-header">
+                                    <div class="step-info">
+                                        <div class="step-icon">
+                                            <i class="fas fa-sun"></i>
+                                        </div>
+                                        <div class="step-details">
+                                            <h4>Wake Up Gently</h4>
+                                            <p>Set consistent wake-up time with melodic alarm</p>
+                                        </div>
+                                    </div>
+                                    <div class="step-actions">
+                                        <button class="timer-btn-small" data-minutes="5">
+                                            <i class="fas fa-play"></i> 5 min
+                                        </button>
+                                        <button class="step-checkbox">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="routine-step" data-step="hydrate">
+                                <div class="step-header">
+                                    <div class="step-info">
+                                        <div class="step-icon">
+                                            <i class="fas fa-tint"></i>
+                                        </div>
+                                        <div class="step-details">
+                                            <h4>Hydrate First</h4>
+                                            <p>Drink a glass of water to rehydrate after sleep</p>
+                                        </div>
+                                    </div>
+                                    <div class="step-actions">
+                                        <button class="timer-btn-small" data-minutes="5">
+                                            <i class="fas fa-play"></i> 5 min
+                                        </button>
+                                        <button class="step-checkbox">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="routine-step" data-step="move">
+                                <div class="step-header">
+                                    <div class="step-info">
+                                        <div class="step-icon">
+                                            <i class="fas fa-walking"></i>
+                                        </div>
+                                        <div class="step-details">
+                                            <h4>Move Your Body</h4>
+                                            <p>Light stretching, yoga, or walking</p>
+                                        </div>
+                                    </div>
+                                    <div class="step-actions">
+                                        <button class="timer-btn-small" data-minutes="20">
+                                            <i class="fas fa-play"></i> 20 min
+                                        </button>
+                                        <button class="step-checkbox">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="routine-step" data-step="mindfulness">
+                                <div class="step-header">
+                                    <div class="step-info">
+                                        <div class="step-icon">
+                                            <i class="fas fa-brain"></i>
+                                        </div>
+                                        <div class="step-details">
+                                            <h4>Practice Mindfulness</h4>
+                                            <p>Meditation, deep breathing, or gratitude</p>
+                                        </div>
+                                    </div>
+                                    <div class="step-actions">
+                                        <button class="timer-btn-small" data-minutes="15">
+                                            <i class="fas fa-play"></i> 15 min
+                                        </button>
+                                        <button class="step-checkbox">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="routine-step" data-step="nourish">
+                                <div class="step-header">
+                                    <div class="step-info">
+                                        <div class="step-icon">
+                                            <i class="fas fa-utensils"></i>
+                                        </div>
+                                        <div class="step-details">
+                                            <h4>Nourish Yourself</h4>
+                                            <p>Balanced breakfast with protein and nutrients</p>
+                                        </div>
+                                    </div>
+                                    <div class="step-actions">
+                                        <button class="timer-btn-small" data-minutes="25">
+                                            <i class="fas fa-play"></i> 25 min
+                                        </button>
+                                        <button class="step-checkbox">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="routine-step" data-step="intentions">
+                                <div class="step-header">
+                                    <div class="step-info">
+                                        <div class="step-icon">
+                                            <i class="fas fa-bullseye"></i>
+                                        </div>
+                                        <div class="step-details">
+                                            <h4>Set Intentions</h4>
+                                            <p>Set priorities and reflect on goals</p>
+                                        </div>
+                                    </div>
+                                    <div class="step-actions">
+                                        <button class="timer-btn-small" data-minutes="10">
+                                            <i class="fas fa-play"></i> 10 min
+                                        </button>
+                                        <button class="step-checkbox">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Timer Display -->
+                        <div class="main-timer">
+                            <div class="timer-display">
+                                <span id="timer-minutes">00</span>:<span id="timer-seconds">00</span>
+                            </div>
+                            <div class="timer-controls">
+                                <button id="timer-start" class="timer-btn">
+                                    <i class="fas fa-play"></i> Start
+                                </button>
+                                <button id="timer-pause" class="timer-btn" style="display: none;">
+                                    <i class="fas fa-pause"></i> Pause
+                                </button>
+                                <button id="timer-reset" class="timer-btn">
+                                    <i class="fas fa-stop"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Journal Tab -->
+                <section id="journal-tab" class="tab-content">
+                    <div class="journal-container">
+                        <div class="journal-header">
+                            <h2>Daily Reflection Journal</h2>
+                            <p>Write your thoughts and responses to today's prompts</p>
+                        </div>
+
+                        <div class="journal-section">
+                            <div class="journal-prompts">
+                                <h4>Today's Prompts:</h4>
+                                <div class="journal-prompt-display">
+                                    <p id="journal-prompt-1">How do I want to feel when I go to bed tonight?</p>
+                                    <p id="journal-prompt-2">What are three things I am grateful for today?</p>
+                                </div>
+                            </div>
+
+                            <div class="journal-writing-area">
+                                <textarea 
+                                    id="journal-text" 
+                                    placeholder="Start writing your thoughts here... Take a moment to reflect on your day, your feelings, and your gratitude."
+                                    rows="15"
+                                ></textarea>
+                                <div class="journal-actions">
+                                    <button id="save-journal" class="action-btn primary">
+                                        <i class="fas fa-save"></i> Save Entry
+                                    </button>
+                                    <button id="clear-journal" class="action-btn">
+                                        <i class="fas fa-trash"></i> Clear
+                                    </button>
+                                </div>
+                                <div class="save-status" id="save-status"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p>✨ Consistency over perfection - small daily steps lead to transformation ✨</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
