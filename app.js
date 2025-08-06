@@ -10,7 +10,12 @@ const wellnessData = {
         "Health is not about the weight you lose, but about the life you gain. - Dr. Josh Axe",
         "To keep the body in good health is a duty... otherwise we shall not be able to keep our mind strong and clear. - Buddha",
         "The groundwork for all happiness is good health. - Leigh Hunt",
-        "Investing in your health is the best investment you will ever make. - Unknown"
+        "Investing in your health is the best investment you will ever make. - Unknown",
+        "Every morning is a beautiful morning. - Terri Guillemets",
+        "Today is your day to start fresh, to eat right, to train hard, to live healthy, to be proud. - Bonnie Pfiester",
+        "Make each day your masterpiece. - John Wooden",
+        "There is a morning inside you waiting to burst open into light. - Rumi",
+        "Each morning we are born again. What we do today is what matters most. - Buddha"
     ],
     
     prompts: [
@@ -29,7 +34,11 @@ const wellnessData = {
         "What would make today feel meaningful?",
         "How can I nurture my body, mind, and spirit today?",
         "What am I proud of from yesterday?",
-        "What challenge can I embrace today as an opportunity for growth?"
+        "What challenge can I embrace today as an opportunity for growth?",
+        "How can I be more present in this moment?",
+        "What would I like to let go of today?",
+        "What brings me the most peace?",
+        "How can I connect with others today in a meaningful way?"
     ],
     
     inspiration: [
@@ -42,7 +51,12 @@ const wellnessData = {
         "Each morning we are born again. What we do today is what matters most. - Buddha",
         "Rise up, start fresh, see the bright opportunity in each day. - Unknown",
         "Morning is an important time of day because how you spend your morning can often tell you what kind of day you are going to have. - Lemony Snicket",
-        "Every sunrise is an invitation for us to arise and brighten someone's day. - Richelle E. Goodrich"
+        "Every sunrise is an invitation for us to arise and brighten someone's day. - Richelle E. Goodrich",
+        "The way you start your day can affect your whole day. Begin it with a positive mindset.",
+        "Today is full of possibilities. What will you create?",
+        "Your morning routine sets the tone for everything that follows. Make it count.",
+        "Embrace this day with an open heart and curious mind.",
+        "Small steps taken consistently lead to remarkable transformations."
     ]
 };
 
@@ -124,6 +138,26 @@ function setupEventListeners() {
         });
     });
 
+    // Copy buttons
+    const copyButtons = document.querySelectorAll('.copy-btn');
+    copyButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const type = btn.dataset.type;
+            copyContent(type, btn);
+        });
+    });
+
+    // Share buttons  
+    const shareButtons = document.querySelectorAll('.share-btn');
+    shareButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const type = btn.dataset.type;
+            shareContent(type);
+        });
+    });
+
     // Morning routine checkboxes
     const checkboxes = document.querySelectorAll('.step-checkbox');
     checkboxes.forEach(checkbox => {
@@ -139,9 +173,9 @@ function setupEventListeners() {
     if (timerPause) timerPause.addEventListener('click', pauseTimer);
     if (timerReset) timerReset.addEventListener('click', resetTimer);
 
-    // Timer presets
-    const presetButtons = document.querySelectorAll('.preset-btn');
-    presetButtons.forEach(btn => {
+    // Timer preset buttons (small timer buttons)
+    const timerBtnSmall = document.querySelectorAll('.timer-btn-small');
+    timerBtnSmall.forEach(btn => {
         btn.addEventListener('click', () => {
             const minutes = parseInt(btn.dataset.minutes);
             setTimer(minutes, 0);
@@ -219,6 +253,148 @@ function refreshSpecificContent(type) {
     }
 }
 
+// Copy functionality
+function copyContent(type, button) {
+    let textToCopy = '';
+    
+    switch(type) {
+        case 'quote':
+            const quote = document.getElementById('daily-quote').textContent;
+            textToCopy = quote;
+            break;
+            
+        case 'prompts':
+            const prompt1 = document.getElementById('prompt-1').textContent;
+            const prompt2 = document.getElementById('prompt-2').textContent;
+            textToCopy = `Daily Journal Prompts:\n\n1. ${prompt1}\n\n2. ${prompt2}`;
+            break;
+            
+        case 'inspiration':
+            const inspiration = document.getElementById('daily-inspiration').textContent;
+            textToCopy = `Daily Inspiration:\n\n${inspiration}`;
+            break;
+    }
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(textToCopy).then(() => {
+        // Visual feedback
+        button.classList.add('copied');
+        showCopyNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} copied!`);
+        
+        setTimeout(() => {
+            button.classList.remove('copied');
+        }, 1000);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        fallbackCopy(textToCopy, button);
+    });
+}
+
+// Share functionality using Web Share API
+function shareContent(type) {
+    let shareData = {};
+    
+    switch(type) {
+        case 'quote':
+            const quote = document.getElementById('daily-quote').textContent;
+            shareData = {
+                title: 'Daily Wellness Quote',
+                text: quote,
+            };
+            break;
+            
+        case 'prompts':
+            const prompt1 = document.getElementById('prompt-1').textContent;
+            const prompt2 = document.getElementById('prompt-2').textContent;
+            shareData = {
+                title: 'Daily Journal Prompts',
+                text: `1. ${prompt1}\n\n2. ${prompt2}`,
+            };
+            break;
+            
+        case 'inspiration':
+            const inspiration = document.getElementById('daily-inspiration').textContent;
+            shareData = {
+                title: 'Daily Inspiration',
+                text: inspiration,
+            };
+            break;
+    }
+    
+    // Use native share if available (mobile), otherwise copy to clipboard
+    if (navigator.share) {
+        navigator.share(shareData).catch(err => {
+            console.log('Share cancelled or failed:', err);
+            // Fallback to copy on share failure
+            const shareButton = document.querySelector(`.share-btn[data-type="${type}"]`);
+            copyContent(type, shareButton);
+        });
+    } else {
+        // Fallback to copy
+        const shareButton = document.querySelector(`.share-btn[data-type="${type}"]`);
+        copyContent(type, shareButton);
+    }
+}
+
+// Fallback copy method for older browsers
+function fallbackCopy(text, button) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        button.classList.add('copied');
+        showCopyNotification('Copied to clipboard!');
+        setTimeout(() => {
+            button.classList.remove('copied');
+        }, 1000);
+    } catch (err) {
+        console.error('Fallback copy failed:', err);
+        showCopyNotification('Copy failed. Please try again.');
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+// Copy notification
+function showCopyNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'copy-notification';
+    notification.textContent = message;
+    
+    // Style the notification
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--success, #27ae60);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        font-weight: 500;
+        animation: slideIn 0.3s ease-out;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-in forwards';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 300);
+    }, 2000);
+}
+
 // Morning routine functionality
 function toggleStep(checkbox) {
     const step = checkbox.closest('.routine-step');
@@ -257,7 +433,7 @@ function updateProgress() {
 
 // Timer functionality
 function startTimer() {
-    if (!timerRunning) {
+    if (!timerRunning && (timerMinutes > 0 || timerSeconds > 0)) {
         timerRunning = true;
         timerInterval = setInterval(() => {
             if (timerSeconds > 0) {
@@ -268,7 +444,7 @@ function startTimer() {
             } else {
                 // Timer finished
                 resetTimer();
-                showNotification('Timer finished! Great job!');
+                showTimerNotification('Timer finished! Great job! 🎉');
                 return;
             }
             updateTimerDisplay();
@@ -303,9 +479,12 @@ function setTimer(minutes, seconds) {
 }
 
 function updateTimerDisplay() {
-    const display = document.getElementById('timer-display');
-    if (display) {
-        display.textContent = formatTime(timerMinutes, timerSeconds);
+    const minutesDisplay = document.getElementById('timer-minutes');
+    const secondsDisplay = document.getElementById('timer-seconds');
+    
+    if (minutesDisplay && secondsDisplay) {
+        minutesDisplay.textContent = timerMinutes.toString().padStart(2, '0');
+        secondsDisplay.textContent = timerSeconds.toString().padStart(2, '0');
     }
 }
 
@@ -322,6 +501,40 @@ function updateTimerButtons() {
             pauseBtn.style.display = 'none';
         }
     }
+}
+
+function showTimerNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'timer-notification';
+    notification.textContent = message;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        z-index: 1001;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-align: center;
+        animation: timerFinished 0.5s ease-out;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'fadeOut 0.5s ease-in forwards';
+        setTimeout(() => {
+            if (document.body.contains(notification)) {
+                document.body.removeChild(notification);
+            }
+        }, 500);
+    }, 3000);
 }
 
 // Journal functionality
@@ -352,7 +565,7 @@ function saveJournalEntry(silent = false) {
         localStorage.setItem('dailyWellnessJournal', JSON.stringify(journalData));
         
         if (!silent) {
-            saveStatus.textContent = 'Journal entry saved successfully!';
+            saveStatus.textContent = 'Journal entry saved successfully! ✓';
             saveStatus.className = 'save-status success';
             
             setTimeout(() => {
@@ -398,110 +611,100 @@ function loadSavedData() {
     // Load journal data
     const savedJournal = localStorage.getItem('dailyWellnessJournal');
     if (savedJournal) {
-        const journalData = JSON.parse(savedJournal);
-        const journalText = document.getElementById('journal-text');
-        
-        // Only load if it's from today
-        if (journalData.date === formatDate(new Date()) && journalText) {
-            journalText.value = journalData.content;
+        try {
+            const journalData = JSON.parse(savedJournal);
+            const journalText = document.getElementById('journal-text');
+            
+            // Only load if it's from today
+            if (journalData.date === formatDate(new Date()) && journalText) {
+                journalText.value = journalData.content;
+            }
+        } catch (error) {
+            console.error('Error loading journal ', error);
         }
     }
     
     // Load routine progress
     const savedProgress = localStorage.getItem('dailyWellnessProgress');
     if (savedProgress) {
-        const progressData = JSON.parse(savedProgress);
+        try {
+            const progressData = JSON.parse(savedProgress);
+            
+            // Only load if it's from today
+            if (progressData.date === formatDate(new Date())) {
+                completedSteps = progressData.completedSteps;
+                
+                // Update UI to reflect saved progress
+                const checkboxes = document.querySelectorAll('.step-checkbox');
+                checkboxes.forEach((checkbox, index) => {
+                    if (index < completedSteps) {
+                        checkbox.classList.add('checked');
+                        checkbox.closest('.routine-step').classList.add('completed');
+                    }
+                });
+                
+                updateProgress();
+            }
+        } catch (error) {
+            console.error('Error loading progress ', error);
+        }
+    }
+}
+
+// Add notification animations to CSS dynamically
+function addNotificationStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
         
-        // Only load if it's from today
-        if (progressData.date === formatDate(new Date())) {
-            completedSteps = progressData.completedSteps;
-            
-            // Update UI to reflect saved progress
-            const checkboxes = document.querySelectorAll('.step-checkbox');
-            checkboxes.forEach((checkbox, index) => {
-                if (index < completedSteps) {
-                    checkbox.classList.add('checked');
-                    checkbox.closest('.routine-step').classList.add('completed');
-                }
-            });
-            
-            updateProgress();
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
         }
-    }
-}
-
-// Notification system
-function showNotification(message) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--success);
-        color: white;
-        padding: 16px 24px;
-        border-radius: 8px;
-        box-shadow: var(--shadow-medium);
-        z-index: 1000;
-        animation: slideIn 0.3s ease-out;
+        
+        @keyframes timerFinished {
+            from {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
     `;
-    
-    document.body.appendChild(notification);
-    
-    // Remove after 3 seconds
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease-in forwards';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
+    document.head.appendChild(style);
 }
-
-// Add notification animations to CSS
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
 
 // Initialize app when DOM is loaded
-document.addEventListener('DOMContentLoaded', initializeApp);
-
-// Service Worker Registration (for PWA functionality)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
-}
+document.addEventListener('DOMContentLoaded', () => {
+    addNotificationStyles();
+    initializeApp();
+});
 
 // Export functions for testing (if needed)
 window.WellnessApp = {
@@ -512,145 +715,7 @@ window.WellnessApp = {
     pauseTimer,
     resetTimer,
     saveJournalEntry,
-    clearJournalEntry
+    clearJournalEntry,
+    copyContent,
+    shareContent
 };
-// Add to your existing event listeners setup
-function setupEventListeners() {
-    // ... existing code ...
-
-    // Copy buttons
-    const copyButtons = document.querySelectorAll('.copy-btn');
-    copyButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const type = btn.dataset.type;
-            copyContent(type, btn);
-        });
-    });
-
-    // Share buttons  
-    const shareButtons = document.querySelectorAll('.share-btn');
-    shareButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const type = btn.dataset.type;
-            shareContent(type);
-        });
-    });
-}
-
-// Copy functionality
-function copyContent(type, button) {
-    let textToCopy = '';
-    
-    switch(type) {
-        case 'quote':
-            const quote = document.getElementById('daily-quote').textContent;
-            textToCopy = quote;
-            break;
-            
-        case 'prompts':
-            const prompt1 = document.getElementById('prompt-1').textContent;
-            const prompt2 = document.getElementById('prompt-2').textContent;
-            textToCopy = `Daily Prompts:\n\n1. ${prompt1}\n\n2. ${prompt2}`;
-            break;
-            
-        case 'inspiration':
-            const inspiration = document.getElementById('daily-inspiration').textContent;
-            textToCopy = `Daily Inspiration:\n\n${inspiration}`;
-            break;
-    }
-    
-    // Copy to clipboard
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        // Visual feedback
-        button.classList.add('copied');
-        showCopyNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} copied!`);
-        
-        setTimeout(() => {
-            button.classList.remove('copied');
-        }, 1000);
-    }).catch(err => {
-        console.error('Failed to copy: ', err);
-        fallbackCopy(textToCopy);
-    });
-}
-
-// Share functionality using Web Share API
-function shareContent(type) {
-    let shareData = {};
-    
-    switch(type) {
-        case 'quote':
-            const quote = document.getElementById('daily-quote').textContent;
-            shareData = {
-                title: 'Daily Wellness Quote',
-                text: quote,
-            };
-            break;
-            
-        case 'prompts':
-            const prompt1 = document.getElementById('prompt-1').textContent;
-            const prompt2 = document.getElementById('prompt-2').textContent;
-            shareData = {
-                title: 'Daily Journal Prompts',
-                text: `1. ${prompt1}\n\n2. ${prompt2}`,
-            };
-            break;
-            
-        case 'inspiration':
-            const inspiration = document.getElementById('daily-inspiration').textContent;
-            shareData = {
-                title: 'Daily Inspiration',
-                text: inspiration,
-            };
-            break;
-    }
-    
-    // Use native share if available (mobile), otherwise copy to clipboard
-    if (navigator.share) {
-        navigator.share(shareData).catch(err => {
-            console.log('Share cancelled or failed:', err);
-        });
-    } else {
-        // Fallback to copy
-        copyContent(type, document.querySelector(`.share-btn[data-type="${type}"]`));
-    }
-}
-
-// Fallback copy method for older browsers
-function fallbackCopy(text) {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
-    try {
-        document.execCommand('copy');
-        showCopyNotification('Copied to clipboard!');
-    } catch (err) {
-        console.error('Fallback copy failed:', err);
-    }
-    
-    document.body.removeChild(textArea);
-}
-
-// Copy notification
-function showCopyNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'copy-notification';
-    notification.textContent = message;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease-in forwards';
-        setTimeout(() => {
-            if (document.body.contains(notification)) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
-    }, 2000);
-}
-
